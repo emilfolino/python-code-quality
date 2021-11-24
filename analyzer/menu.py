@@ -1,20 +1,16 @@
-#!/usr/bin/env python3
-
 """
-Menu file for text analyzer
+printar menyvalen för textanalysprogrammet
 """
 
 def print_menu():
     """
-    Prints the menu for text analyzer
+    den formaterade menyn utskriven
     """
-    print("Available commands:")
-    print("lines - count lines")
-    print("words - count words")
-    print("letters - count letters")
-    print("word_frequency - get the 7 most frequent words")
-    print("letter_frequency - get the 7 most frequent letters")
-    print("all - does all of the above commands")
-    print("change - change file to analyze")
-    print("menu - show this menu")
-    print("q - quit")
+    print("lines) Count lines")
+    print("words) Count words")
+    print("letters) Count letters")
+    print("word_frequency) Find 7 most used words")
+    print("letter_frequency) Find 7 most used letters")
+    print("all) Do everything")
+    print("change) Change file")
+    print("q) quit")

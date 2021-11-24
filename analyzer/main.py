@@ -1,42 +1,60 @@
-#!/usr/bin/env python3
-
 """
-Main file for text analyzer
+mainfilen för textanalysprogrammet
 """
-
 import menu
 import analyzer
-
 def main():
     """
-    Main loop for text analyzer
+    mainfunktionen för textanalysprogrammet som körs om __name__ == "__main__"
     """
-    file_name = "phil.txt"
-    menu.print_menu()
+
+    analyzer.read_file()
     while True:
-        choice = input("> ")
-        if choice == "menu":
-            menu.print_menu()
-        elif choice == "lines":
-            print(analyzer.count_lines(file_name))
+        menu.print_menu()
+        choice = input("make a choice:\n")
+        if choice == "lines":
+            n_lines, lines = analyzer.lines()
+            print(n_lines, lines)
+            #input(text_for_continue)
+
         elif choice == "words":
-            print(analyzer.count_words(file_name))
+            n_words, words = analyzer.words()
+            print(n_words, words)
+            #input(text_for_continue)
+
         elif choice == "letters":
-            print(analyzer.count_letters(file_name))
+            n_letters, letters = analyzer.letters()
+            print(n_letters, letters)
+            #input(text_for_continue)
+
         elif choice == "word_frequency":
-            print(analyzer.frequent_words(file_name))
+            sorted_tup_words = analyzer.word_frequency()
+            analyzer.dict_printer(sorted_tup_words, analyzer.words()[0])
+            #input(text_for_continue)
+
         elif choice == "letter_frequency":
-            print(analyzer.frequent_letters(file_name))
+            sorted_tup_letters = analyzer.letter_frequency()
+            analyzer.dict_printer(sorted_tup_letters, analyzer.letters()[0])
+            #input(text_for_continue)
+
         elif choice == "all":
-            print(analyzer.count_lines(file_name))
-            print(analyzer.count_words(file_name))
-            print(analyzer.count_letters(file_name))
-            print(analyzer.frequent_words(file_name))
-            print(analyzer.frequent_letters(file_name))
+            analyzer.print_all()
+            #input(text_for_continue)
+
         elif choice == "change":
-            file_name = input("Enter new file name: ")
+            analyzer.change()
+            #input(text_for_continue)
+
         elif choice == "q":
+            #input("I see... after all my effort you're leaving, great. Thx...")
             break
+
+        else:
+            print("You can only choose options from the menu... of course...")
+            #input("Press enter for another try")
+
+
+
 
 if __name__ == "__main__":
     main()

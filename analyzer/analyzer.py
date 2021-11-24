@@ -1,98 +1,118 @@
-#!/usr/bin/env python3
-
 """
-Functions for text analyzer
+funktionerna för textanalysprogrammet
 """
+the_text = "not changed"
 
-def get_lines(file_name):
+def read_file():
     """
-    Get non-empty lines from a file
+    funktions om läser in den initiella textfilen
     """
-    with open(file_name, "r") as file:
-        lines = file.read().split("\n")
-    while "" in lines:
-        lines.remove("")
-    return lines
+    global the_text
+    with open("phil.txt", "r", encoding="utf-8") as f:
+        the_text = f.read()
 
-def count_lines(file_name):
+def change():
     """
-    Counts number of lines in a file
+    ändrar vilken fil som ska analyseras
     """
-    return len(get_lines(file_name))
+    global the_text
+    in_file = input("Enter filename:\n")
+    try:
+        with open(in_file, "r") as f:
+            the_text = f.read()
+    except FileNotFoundError:
+        print("File does not exist, nothing changed")
 
-def count_words(file_name):
+def lines():
     """
-    Counts number of words in a file
+    returnerar antalet rader och dessa rader i en lista
     """
-    lines = get_lines(file_name)
-    words = []
-    for line in lines:
-        words[:0] = line.split(" ")
-    return len(words)
+    lines_list = []
+    for line in the_text.lower().split("\n"):
+        if line == "\n":
+            continue
+        lines_list.append(line)
+    return len(lines_list), lines_list
 
-def count_letters(file_name):
+def words():
     """
-    Counts number of letters in a file
+    returnerar antalet ord och dessa ord i en lista
     """
-    with open(file_name, "r") as file:
-        string = file.read().lower()
-    letters = 0
-    for character in string:
-        if character in "abcdefghijklmnopqrstuvwxyz":
-            letters += 1
-    return letters
+    words_list = []
+    for line in lines()[1]:
+        for word in line.split():
+            temp_word = ""
+            for letter in word:
+                if not letter.isalpha():
+                    continue
+                temp_word += letter
+            words_list.append(temp_word)
+    return len(words_list), words_list
 
-def item_value(item):
+def letters():
     """
-    Calculates the value an item should have when sorted
+    retrunerar antalet bokstäver och dessa bokstäver i en lista
     """
-    value = list("0" * 99)
-    item_number = list(str(item[1]))
-    value[-len(item_number):] = item_number
-    value.append(item[0])
-    return "".join(value)
+    letters_list = []
+    for word in words()[1]:
+        for letter in word:
+            if not letter.isalpha():
+                continue
+            letters_list.append(letter)
 
-def seven_most_frequent(dictionary, total):
-    """
-    Sorts dictionary and returns string with 7 most frequent items
-    """
-    items = []
-    for index, item in enumerate(sorted(dictionary.items(), key = item_value, reverse = True)):
-        if index > 6:
-            break
-        items.append(f"{item[0]}: {item[1]} | {round((item[1] / total) * 100, 1)}%")
-    return "\n".join(items)
+    return len(letters_list), letters_list
 
-def frequent_words(file_name):
+def word_frequency():
     """
-    Get the 7 most frequent words in a file
+    retrunerar en lista med alla ord och hur många gånger de finns i texten
     """
-    lines = get_lines(file_name)
-    word_list = []
-    for line in lines:
-        word_list[:0] = line.split(" ")
-    words = {}
-    for word in word_list:
-        word = word.lower().strip(".,")
-        if word in words:
-            words[word] += 1
-        else:
-            words[word] = 1
-    return seven_most_frequent(words, len(word_list))
+    all_words = words()[1]
+    words_dict = {}
+    for word in all_words:
+        words_dict[word] = words_dict.get(word, 0) +1
 
-def frequent_letters(file_name):
+    words_list = []
+    for word, freq in words_dict.items():
+        words_list.append((freq, word))
+    sorted_words_list = sorted(words_list, reverse=True)
+
+    return sorted_words_list
+
+def letter_frequency():
     """
-    Get the 7 most frequent letters in a file
+    retrunerar en lista med alla bokstäver och hur många gånger de finns i texten
     """
-    with open(file_name, "r") as file:
-        string = file.read().lower()
-    letters = {}
-    letter_count = 0
-    for character in string:
-        if character in "abcdefghijklmnopqrstuvwxyz":
-            letter_count += 1
-            if character in letters:
-                letters[character] += 1
-            else:
-                letters[character] = 1
-    return seven_most_frequent(letters, letter_count)
+    all_letters = letters()[1]
+    letters_dict = {}
+    for letter in all_letters:
+        letters_dict[letter] = letters_dict.get(letter, 0) +1
+
+    letters_list = []
+    for letter, freq in letters_dict.items():
+        letters_list.append((freq, letter))
+    sorted_letters_list = sorted(letters_list, reverse=True)
+
+    return sorted_letters_list
+
+def dict_printer(alpha, all_alpha):
+    """
+    skriver ut formaterad information frequency funktionerna
+    """
+    for key, value in alpha[:7]:
+        print("{value}: {key} | {procent:.1f}%".format(
+                    value=value,
+                    key=key,
+                    procent=(key/all_alpha)*100
+                    ))
+
+def print_all():
+    """
+    printar ut all information i rätt format
+    """
+    sorted_tup_letters = letter_frequency()
+    sorted_tup_words = word_frequency()
+    print(lines()[0])
+    print(words()[0])
+    print(letters()[0])
+    dict_printer(sorted_tup_words, words()[0])
+    dict_printer(sorted_tup_letters, letters()[0])
