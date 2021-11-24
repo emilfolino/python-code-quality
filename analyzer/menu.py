@@ -1,11 +1,11 @@
 """
-printar menyvalen för textanalysprogrammet
+Menu
 """
-
-def print_menu():
+def menu():
     """
-    den formaterade menyn utskriven
+    Menu
     """
+    print("")
     print("lines) Count lines")
     print("words) Count words")
     print("letters) Count letters")
@@ -13,4 +13,4 @@ def print_menu():
     print("letter_frequency) Find 7 most used letters")
     print("all) Do everything")
     print("change) Change file")
-    print("q) quit")
+    print("q) Quit.")

@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 
 """
-f6110ca89f074beff5a7b80a71a26856
+78a37674619e6eeda9011b65b62b8f35
 python
 lab6
 v4
-madx21
-2021-10-14 14:23:15
+mafh21
+2021-10-09 13:19:56
 v4.0.0 (2019-03-05)
 
-Generated 2021-10-14 16:23:15 by dbwebb lab-utility v4.0.0 (2019-03-05).
+Generated 2021-10-09 15:19:56 by dbwebb lab-utility v4.0.0 (2019-03-05).
 https://github.com/dbwebb-se/lab
 """
 
@@ -48,16 +48,13 @@ dbwebb.ready_to_begin()
 #
 # Write your code below and put the answer into the variable ANSWER.
 #
-
-with open("quotes.txt", encoding="utf-8") as f:
-    text = f.read()
-
+with  open("quotes.txt",encoding="UTF-8") as file:
+    data = file.read()
 
 
 
 
-
-ANSWER = len(text)
+ANSWER = len(data)
 
 # I will now test your answer - change false to true to get a hint.
 dbwebb.assert_equal("1.1", ANSWER, False)
@@ -66,17 +63,13 @@ dbwebb.assert_equal("1.1", ANSWER, False)
 # Exercise 1.2 (1 points)
 #
 # Use your variable from the exercise above and answer with the contents on
-# line number 1.
+# line number 4.
 #
 # Write your code below and put the answer into the variable ANSWER.
 #
+line = data.split('\n')
 
-lines = text.split("\n")
-
-
-
-
-ANSWER = lines[0]
+ANSWER = line[3]
 
 # I will now test your answer - change false to true to get a hint.
 dbwebb.assert_equal("1.2", ANSWER, False)
@@ -94,19 +87,21 @@ dbwebb.assert_equal("1.2", ANSWER, False)
 #
 # Write your code below and put the answer into the variable ANSWER.
 #
+ln = len(line) - 5
+afterDel = line[0: ln]
+afterDel[5] = "I am replaced"
+with open('newQuotes.txt',"w",encoding="UTF-8") as newFile:
+    newFile.write("\n".join(afterDel))
+    newFile.close()
+with open('newQuotes.txt',encoding="UTF-8") as readFile:
+    dataTwo = readFile.read()
 
 
-mod_text = []
-for line in lines[:-5]:
-    mod_text.append(line)
-mod_text[5] = "I am replaced"
-with open("newQuotes.txt", "w", encoding="utf-8") as f:
-    f.write("\n".join(mod_text))
 
-with open("newQuotes.txt", "r", encoding="utf-8") as f:
-    answer = f.read()
 
-ANSWER = answer
+
+
+ANSWER = dataTwo
 
 # I will now test your answer - change false to true to get a hint.
 dbwebb.assert_equal("1.3", ANSWER, False)
@@ -117,19 +112,20 @@ dbwebb.assert_equal("1.3", ANSWER, False)
 # Append the following sentence on a new line at the end of newQuotes.txt and
 # answer with the content.
 #
-# *"All creativity is an extended form of a joke."*
+# *"The important thing is not to stop questioning."*
 #
 # Write your code below and put the answer into the variable ANSWER.
 #
-with open("newQuotes.txt", "a", encoding="utf-8") as f:
-    f.write("\nAll creativity is an extended form of a joke.")
-
-with open("newQuotes.txt", "r", encoding="utf-8") as f:
-    answer = f.read()
-
+with open('newQuotes.txt',"a") as fileWrite:
+    fileWrite.write("\nThe important thing is not to stop questioning.")
+    fileWrite.close()
+with open('newQuotes.txt',encoding="UTF-8") as fileRead:
 
 
-ANSWER = answer
+
+
+
+    ANSWER = fileRead.read()
 
 # I will now test your answer - change false to true to get a hint.
 dbwebb.assert_equal("1.4", ANSWER, False)
@@ -149,27 +145,24 @@ dbwebb.assert_equal("1.4", ANSWER, False)
 #
 # Write your code below and put the answer into the variable ANSWER.
 #
-with open("passwords.txt", "r", encoding="utf-8") as f:
-    lines = f.readlines()
-
-counter = 0
-new_text = []
-for line in lines:
-    if line == "\n":
-        counter +=1
-        continue
-    new_text.append(line)
-with open("newPasswords.txt", "w", encoding="utf-8") as f:
-    f.write("".join(new_text))
-with open("newPasswords.txt", "r", encoding="utf-8") as f:
-    new_pass = f.read()
-answer = "passwords.txt has {} empty lines and contains: {}".format(counter, new_pass)
-
+with open("passwords.txt",encoding="UTF-8") as file:
+    dataNum = file.readlines()
+    numberEmpty = 0
+    NewList = []
+    for line in dataNum:
+        if line == "\n":
+            numberEmpty += 1
+        else:
+            NewList.append(line)
+with open('newPasswords.txt',"w",encoding="UTF-8") as newPassFile:
+    newPassFile.write("".join(NewList))
+    newPassFile.close()
+with open('newPasswords.txt',encoding="UTF-8") as fileReadPass:
+    
 
 
 
-
-ANSWER = answer
+    ANSWER = f'passwords.txt has {numberEmpty} empty lines and contains: {fileReadPass.read()}'
 
 # I will now test your answer - change false to true to get a hint.
 dbwebb.assert_equal("1.5", ANSWER, False)
@@ -177,7 +170,7 @@ dbwebb.assert_equal("1.5", ANSWER, False)
 # """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 # Exercise 1.6 (3 points)
 #
-# Write the content of line numbers 1, 2 and 3 from `quotes.txt` to a new
+# Write the content of line numbers 4, 5 and 6 from `quotes.txt` to a new
 # file that you create called `extraQuotes.txt`. Replace `extraQuotes.txt` if
 # it already exists.
 # Save the total number of characters and the 9 first characters of the
@@ -194,32 +187,23 @@ dbwebb.assert_equal("1.5", ANSWER, False)
 #
 # Write your code below and put the answer into the variable ANSWER.
 #
-with open("quotes.txt", "r", encoding="utf-8") as f:
-    lines = f.readlines()
-with open ("extraQuotes.txt", "w", encoding="utf-8") as f:
-    f.write("".join(lines[:3]))
-with open ("extraQuotes.txt", "r", encoding="utf-8") as f:
-    extra_q = f.readlines()
-
-counter = 0
-
-for line in extra_q:
-    counter += len(line.strip())
-second_line = (extra_q[1].strip())[:9]
-answer = ("The file has {} characters and the 9 first of the second row "
-          "are: {}".format(counter, second_line))
+newQ = data.split("\n")
+with open("extraQuotes.txt","w") as New_file:
+    New_file.write("\n".join(newQ[3:6]))
+    New_file.close()
+with open("extraQuotes.txt",encoding="UTF-8") as NewRead_file:
+    NumData = len(NewRead_file.read()) - 2
+with open("extraQuotes.txt",encoding="UTF-8") as NewReadfile:
+    newSplit = NewReadfile.readlines()
+    secLine = newSplit[1]
 
 
 
 
-
-
-
-
-ANSWER = answer
+ANSWER = f"The file has {NumData} characters and the 9 first of the second row are: {str(secLine[0:9])}"
 
 # I will now test your answer - change false to true to get a hint.
-dbwebb.assert_equal("1.6", ANSWER, False)
+dbwebb.assert_equal("1.6", ANSWER, True)
 
 
 dbwebb.exit_with_summary()

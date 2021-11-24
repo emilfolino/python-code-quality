@@ -1,60 +1,63 @@
 """
-mainfilen för textanalysprogrammet
+Marvin with a simple menu to start up with.
+Marvin doesnt do anything, just presents a menu with some choices.
+You should add functinoality to Marvin.
 """
 import menu
 import analyzer
+
 def main():
     """
-    mainfunktionen för textanalysprogrammet som körs om __name__ == "__main__"
-    """
-
-    analyzer.read_file()
+    Its an eternal loop, until q is pressed.
+    It should check the choice done by the user and call a appropriate
+    function.
+   """
     while True:
-        menu.print_menu()
-        choice = input("make a choice:\n")
-        if choice == "lines":
-            n_lines, lines = analyzer.lines()
-            print(n_lines, lines)
-            #input(text_for_continue)
+        menu.menu()
+        choice = input("--> ")
 
-        elif choice == "words":
-            n_words, words = analyzer.words()
-            print(n_words, words)
-            #input(text_for_continue)
-
-        elif choice == "letters":
-            n_letters, letters = analyzer.letters()
-            print(n_letters, letters)
-            #input(text_for_continue)
-
-        elif choice == "word_frequency":
-            sorted_tup_words = analyzer.word_frequency()
-            analyzer.dict_printer(sorted_tup_words, analyzer.words()[0])
-            #input(text_for_continue)
-
-        elif choice == "letter_frequency":
-            sorted_tup_letters = analyzer.letter_frequency()
-            analyzer.dict_printer(sorted_tup_letters, analyzer.letters()[0])
-            #input(text_for_continue)
-
-        elif choice == "all":
-            analyzer.print_all()
-            #input(text_for_continue)
-
-        elif choice == "change":
-            analyzer.change()
-            #input(text_for_continue)
-
-        elif choice == "q":
-            #input("I see... after all my effort you're leaving, great. Thx...")
+        if choice == "q":
+            print("Bye, bye - and welcome back anytime!")
             break
 
+        elif choice == "lines":
+            print(analyzer.lines())
+        elif choice == "words":
+            print(analyzer.Words()) 
+        elif choice == "letters":
+            print(analyzer.Letters()) 
+        elif choice == "word_frequency":
+            data = analyzer.word_frequency()
+            keyList = list(data[0].keys())
+            valueList = list(data[0].values())
+            textToShow = ''
+            index = 0
+            for _ in range(7):
+                textToShow = textToShow + f'{keyList[index]}: {valueList[index]} |'\
+                    f' {round( int(valueList[index]) / data[1] * 100, 1)}%\n'
+                index += 1
+            print(textToShow)
+        elif choice == "letter_frequency":
+            l_Data = analyzer.letter_frequency()
+            letter_key = list(l_Data[0].keys())
+            letter_value = list(l_Data[0].values())
+            lettersToShow = ''
+            l_index = 0
+            for _ in range(7):
+                lettersToShow = lettersToShow + f'{letter_key[l_index]}: {letter_value[l_index]} |'\
+                    f' {round(int(letter_value[l_index]) / l_Data[1] * 100, 1)}%\n'
+                l_index += 1
+            print(lettersToShow)
+        elif choice == "all":
+            analyzer.All()
+        elif choice == "change":
+            analyzer.change()
+
+    
         else:
-            print("You can only choose options from the menu... of course...")
-            #input("Press enter for another try")
+            print("That is not a valid choice. You can only choose from the menu.")
 
-
-
-
+        input("\nPress enter to continue...")
+    
 if __name__ == "__main__":
     main()
